@@ -5,6 +5,26 @@
   checkpoint dir `tmp/train/` to evaluate)
 - `tmpy d` : debug caps net with tfdbg
 
+### tfdbg workflow ###
+
+workflow of dumping tensors using `tfdbg`:
+
+1. execute `tmpy d` in command line to invoke `tfdbg`
+2. in `tfdbg` execute `run` command to execute first session run
+3. execute `pt tower_0/Reshape:0 -w tmpy/dt/img.npy` to write
+   tensor into a numpy file. 
+   - `tower_0/Reshape:0` is the node name of `image_4d` variable
+   in `model/capsule_model.py` (line 179), which is the batch
+   used in current run
+
+repeat one more time to save `pt tower_0/Reshape:0 -w
+tmpy/dt/img_1.npy` for test.
+
+### test random seed ###
+
+`test.py` is a simple script to load and test whether saved numpy
+files are deterministic.
+
 # Issues #
 
 ## Reproducible Result ##
